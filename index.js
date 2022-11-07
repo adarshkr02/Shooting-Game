@@ -94,15 +94,15 @@ const gameoverLoader = () => {
   document.querySelector("body").appendChild(gameOverBanner);
 };
 
-// -------------- Creating Player, Enemy, Weapon, Etc Classes----------
+// ------------------- Creating Player, Enemy, Weapon, Etc Classes-----------------------------------
 
-// setting player position to center
+// Setting player position to center
 playerPosition = {
   x: canvas.width / 2,
   y: canvas.height / 2,
 };
 
-// Creating Player class
+// Creating Player Class
 class Player {
   constructor(x, y, radius, color) {
     this.x = x;
@@ -122,11 +122,13 @@ class Player {
       false
     );
     context.fillStyle = this.color;
+
     context.fill();
   }
 }
 
-//Creating Weapon class
+// Creating Weapon Class
+
 class Weapon {
   constructor(x, y, radius, color, velocity, damage) {
     this.x = x;
@@ -150,6 +152,7 @@ class Weapon {
     context.fillStyle = this.color;
     context.fill();
   }
+
   update() {
     this.draw();
     this.x += this.velocity.x;
@@ -202,6 +205,7 @@ class Enemy {
     context.fillStyle = this.color;
     context.fill();
   }
+
   update() {
     this.draw();
     (this.x += this.velocity.x), (this.y += this.velocity.y);
@@ -209,7 +213,7 @@ class Enemy {
 }
 
 // Creating Particle Class
-const fraction = 0.9;
+const fraction = 0.98;
 class Particle {
   constructor(x, y, radius, color, velocity) {
     this.x = x;
@@ -248,9 +252,10 @@ class Particle {
     this.alpha -= 0.01;
   }
 }
-// ----------------Main Logic Here------------
 
-// Creating Player Object, weapons Array, Enemy Array, Etc Array
+// -------------------------------------------------Main Logic Here -------------------------------------------
+
+// Creating Player Object, Weapons Array, Enemy Array, Etc Array
 const abhi = new Player(playerPosition.x, playerPosition.y, 15, "white");
 const weapons = [];
 const hugeWeapons = [];
@@ -267,10 +272,9 @@ const spawnEnemy = () => {
   // random is Enemy Spawn position
   let random;
 
-  // Making Enemy Location Random but only from outside of screen
+  // Making Enemy Location Random but only from outsize of screen
   if (Math.random() < 0.5) {
     // Making X equal to very left off of screen or very right off of screen and setting Y to any where vertically
-
     random = {
       x: Math.random() < 0.5 ? canvas.width + enemySize : 0 - enemySize,
       y: Math.random() * canvas.height,
@@ -299,7 +303,8 @@ const spawnEnemy = () => {
   enemies.push(new Enemy(random.x, random.y, enemySize, enemyColor, velocity));
 };
 
-// ---------------------------Creating Animation Function-------------------------
+// ------------------------------------------------Creating Animation Function ---------------------------------------
+
 let animationId;
 function animation() {
   // Making Recursion
@@ -332,12 +337,11 @@ function animation() {
       hugeWeapon.update();
     }
   });
-
-  // Genertaing Bullets
+  //   Generating Bullets
   weapons.forEach((weapon, weaponIndex) => {
     weapon.update();
 
-    // Removing weapons if they are off screen
+    // Removing Weapons if they are off screen
     if (
       weapon.x + weapon.radius < 1 ||
       weapon.y + weapon.radius < 1 ||
@@ -358,7 +362,7 @@ function animation() {
       abhi.y - enemy.y
     );
 
-    // stoping Game if enemy hit player
+    // Stoping Game if enemy hit player
     if (distanceBetweenPlayerAndEnemy - abhi.radius - enemy.radius < 1) {
       cancelAnimationFrame(animationId);
       gameOverSound.play();
@@ -377,24 +381,21 @@ function animation() {
         distanceBetweenHugeWeaponAndEnemy <= 200 &&
         distanceBetweenHugeWeaponAndEnemy >= -200
       ) {
-        // Increasing player score when killing one enemy
-
+        // increasing player Score when killing one enemy
         playerScore += 10;
         setTimeout(() => {
           killEnemySound.play();
-
           enemies.splice(enemyIndex, 1);
         }, 0);
       }
     });
-
     weapons.forEach((weapon, weaponIndex) => {
-      // Finding Distance bewteen weapon and enemy
-
+      // Finding Distance between weapon and enemy
       const distanceBetweenWeaponAndEnemy = Math.hypot(
         weapon.x - enemy.x,
         weapon.y - enemy.y
       );
+
       if (distanceBetweenWeaponAndEnemy - weapon.radius - enemy.radius < 1) {
         killEnemySound.play();
 
@@ -431,9 +432,10 @@ function animation() {
     });
   });
 }
-// ---------Adding Event Listeners---------------
 
-// event Listener For Light weapon aka left click
+// ---------------------------------Adding Event Listeners------------------------
+
+// event Listener for Light Weapon aka left click
 canvas.addEventListener("click", (e) => {
   shootingSound.play();
   // finding angle between player position(center) and click co-ordinates
@@ -443,13 +445,13 @@ canvas.addEventListener("click", (e) => {
     e.clientX - canvas.width / 2
   );
 
-  //  Making const speed for light weapon
+  // Making const speed for light weapon
   const velocity = {
     x: Math.cos(myAngle) * 6,
     y: Math.sin(myAngle) * 6,
   };
 
-  //   Adding light weapon in weapons array
+  // Adding light weapon in weapons array
   weapons.push(
     new Weapon(
       canvas.width / 2,
@@ -461,7 +463,8 @@ canvas.addEventListener("click", (e) => {
     )
   );
 });
-// event Listener For Heavy weapon aka right click
+
+// event Listener for Heavy Weapon aka right click
 canvas.addEventListener("contextmenu", (e) => {
   e.preventDefault();
 
@@ -470,22 +473,23 @@ canvas.addEventListener("contextmenu", (e) => {
 
   // Decreasing Player Score for using Heavy Weapon
   playerScore -= 2;
-  // Updating playerScore in Scoreboard html element
-  scoreBoard.innerHTML = `Score:${playerScore}`;
+  // Updating Player Score in Score board in html
+  scoreBoard.innerHTML = `Score : ${playerScore}`;
 
   // finding angle between player position(center) and click co-ordinates
+
   const myAngle = Math.atan2(
     e.clientY - canvas.height / 2,
     e.clientX - canvas.width / 2
   );
 
-  //  Making const speed for light weapon
+  // Making const speed for light weapon
   const velocity = {
     x: Math.cos(myAngle) * 3,
     y: Math.sin(myAngle) * 3,
   };
 
-  //   Adding light weapon in weapons array
+  // Adding light weapon in weapons array
   weapons.push(
     new Weapon(
       canvas.width / 2,
