@@ -28,7 +28,7 @@ document.querySelector("input").addEventListener("click", (e) => {
   // Stoping Music
   introMusic.pause();
 
-  // Making form invisble
+  // making form invisble
   form.style.display = "none";
   // Making scoreBoard invisble
   scoreBoard.style.display = "block";
@@ -54,14 +54,14 @@ document.querySelector("input").addEventListener("click", (e) => {
   }
 });
 
-// EndScreen
+// Endscreen
 const gameoverLoader = () => {
-  // Creating endScreen div and play again button and high score element
+  // Creating endscreen div and play again button and high score element
   const gameOverBanner = document.createElement("div");
   const gameOverBtn = document.createElement("button");
   const highScore = document.createElement("div");
 
-  highScore.innerHTML = `High Score :${
+  highScore.innerHTML = `High Score : ${
     localStorage.getItem("highScore")
       ? localStorage.getItem("highScore")
       : playerScore
@@ -84,7 +84,7 @@ const gameoverLoader = () => {
 
   gameOverBanner.appendChild(gameOverBtn);
 
-  // Making reload on clicking playagain button
+  // Making reload on clicking playAgain button
   gameOverBtn.onclick = () => {
     window.location.reload();
   };
