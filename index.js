@@ -85,7 +85,7 @@ const gameoverLoader = () => {
   gameOverBanner.appendChild(gameOverBtn);
 
   // Making reload on clicking playagain button
-  gameOverBtn.onClick = () => {
+  gameOverBtn.onclick = () => {
     window.location.reload();
   };
 
